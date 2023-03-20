@@ -16,4 +16,5 @@ class CustomException(Exception): # inherit parent exception class
     
     def __str__(self):
         return self.error_message
-
+    
+    
