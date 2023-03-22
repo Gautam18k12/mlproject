@@ -5,6 +5,8 @@ import pandas as pd
 import dill
 from sklearn.metrics import r2_score
 
+from sklearn.model_selection import GridSearchCV
+
 from src.exception import CustomException
 
 def save_obj(file_path,obj):
@@ -19,7 +21,7 @@ def save_obj(file_path,obj):
     except Exception as e:
         raise CustomException(e,sys)
     
-def evalaute_models(X_train,y_train,X_test,y_test,models):
+def evalaute_models(X_train,y_train,X_test,y_test,models,params,cv=3):
 
     try:
         
@@ -27,8 +29,18 @@ def evalaute_models(X_train,y_train,X_test,y_test,models):
 
         for i in range(len(list(models))):
             model=list(models.values())[i]
+            para=params[list(models.keys())[i]]
 
-            model.fit(X_train,y_train) #train Model
+            gs=GridSearchCV(model,para,cv=cv)
+            gs.fit(X_train,y_train)
+
+
+            #model.fit(X_train,y_train) #train Model
+
+            model.set_params(**gs.best_params_)
+            model.fit(X_train,y_train) #train Model with best param
+
+
             y_train_pred=model.predict(X_train)
             y_test_pred=model.predict(X_test)
 

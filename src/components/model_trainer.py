@@ -52,10 +52,46 @@ class Modeltrainer:
                 "AdaBoost Regressor": AdaBoostRegressor(),
                 "Gradient Boosting" : GradientBoostingRegressor()
             }
+
+            params = {
+                
+                "Decision Tree": {
+                'criterion':['sqaured_error','friedman_mse','absolute_error','poisson'],
+                'max_feature':['sqrt','log2'],
+                },
+                "Random Forest": {
+                'n_estimators':[8,16,32,98,111,256],
+                'max_feature':['sqrt','log2'],
+                },
+                "Gradient Boosting": {
+                'n_estimators':[8,16,32,98,111,256],
+                'learning_rate':[0.001,0.01,0.5,0.1],
+                'subsample':[0.6,0.7,0.75,0.8]
+                },
+                "Linear Regression":{},
+                "K-Neighbors Regressor": {
+                'n_neighbors':[5,7,9,11]
+                },
+                "XGBRegressor": {
+                'n_estimators':[8,16,32,98,111,256],
+                'learning_rate':[0.001,0.01,0.5,0.1]
+                },
+                "CatBoosting Regressor": {
+                'depth':[6,8,10],
+                'iterations':[30,50,100],
+                'learning_rate':[0.001,0.01,0.5,0.1]
+                },
+                "AdaBoost Regressor": {
+                'n_estimators':[8,16,32,98,111,256],
+                'learning_rate':[0.001,0.01,0.5,0.1]
+                }
+                
+
+            }
             
 
             model_report:dict=evalaute_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test
-                                             ,models=models)
+                                             ,models=models,params=params)
             
             ## to get the best model score from dict
 
